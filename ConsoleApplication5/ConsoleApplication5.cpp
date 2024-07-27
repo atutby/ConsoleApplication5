@@ -1,5 +1,14 @@
-#include <algorithm> // std::max std::copy_n
+/*
+21.12 — Overloading the assignment operator
+https://www.learncpp.com/cpp-tutorial/overloading-the-assignment-operator/
+
+
+*/
+
+
+#include <algorithm> // std::max std::copy_n std::copy
 #include <iostream>
+#include <cstddef> // std::size_t
 
 class MyString
 {
@@ -22,7 +31,7 @@ public:
         delete[] m_data;
     }
 
-    MyString(const MyString&) = default;
+    //MyString(const MyString&) = default;
 
     MyString& operator=(const MyString& str);
 
@@ -62,3 +71,4 @@ MyString& MyString::operator=(const MyString& str)
     swap(*this, temp);
     return *this;
 }
+
