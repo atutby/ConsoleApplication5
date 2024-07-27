@@ -22,7 +22,7 @@ public:
         delete[] m_data;
     }
 
-    //MyString(const MyString&) = default;
+    MyString(const MyString&) = default;
 
     MyString& operator=(const MyString& str);
 
