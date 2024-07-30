@@ -95,8 +95,8 @@ namespace mystring {
 
 
     public:
-        MyString(const char* data = nullptr, int length = 0)
-            : m_length{ 0 }
+        MyString(const char* data = nullptr, size_t length = 0)
+            : m_length{ length }
         {
             std::cout << "ctor\n";
             if (length)
@@ -202,8 +202,6 @@ int main() {
     alex = alex; // Alex is himself
     std::cout << "alex = alex_________\n";
 
-
-    system("pause");
     std::cin.get();
     return 0;
 }
