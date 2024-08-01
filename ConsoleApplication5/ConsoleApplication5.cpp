@@ -1,104 +1,64 @@
-#include <algorithm>
+#include <cassert>
+#include <cstdint>
 #include <iostream>
-#include <cassert> // for assert
 
-class IntArray
+class FixedPoint2
 {
-private: 
-	int m_length{ 0 };
-	int* m_array{ nullptr };
+private:
+	std::int16_t m_base{};
+	std::int8_t m_decimal{};
 
 public:
-	explicit IntArray(int length)
-		: m_length{ length }
+	FixedPoint2(std::int16_t base = 0, std::int8_t decimal = 0)
+		: m_base{ base }, m_decimal{ decimal }
 	{
-		assert(length > 0 && "IntArray length should be a positive integer");
-
-		m_array = new int[m_length] {};
-	}
-
-	// Copy constructor that does a deep copy
-	IntArray(const IntArray& array)
-		: m_length{ array.m_length }
-	{
-		// Allocate a new array
-		m_array = new int[m_length] {};
-		
-		// Copy elements from original array to new array
-		std::copy_n(array.m_array, m_length, m_array);
-	}
-
-	~IntArray()
-	{
-		delete[] m_array;
-	}
-
-	// If you're getting crazy values here you propbably forgot to do a deep copy
-	// in your constructor
-	friend std::ostream& operator<<(std::ostream& out, const IntArray& array)
-	{
-		for (int count{ 0 }; count < array.m_length; ++count)
+		// If either (or both) of the non-fractional and fractional part
+		if (m_base < 0 || m_decimal < 0)
 		{
-			out << array.m_array[count] << ' ';
+			// Make sure base is negative
+			if (m_base > 0)
+				m_base = -m_base;
+			// Make sure decimal is negative
+			if (m_decimal > 0)
+				m_decimal = -m_decimal;		
 		}
-		return out;
 	}
 
-	int& operator[] (const int index)
+	explicit operator double() const
 	{
-		assert(index >= 0);
-		assert(index < m_length);
-		return m_array[index];
+		return m_base + (static_cast<double>(m_decimal) / 100);
 	}
-
-	// Asignment operator that does a deep copy
-	IntArray& operator= (IntArray array)
-	{
-		swap(*this, array);
-		return *this;
-	}
-
-	friend void swap(IntArray& first, IntArray& second)
-	{
-		using std::swap;
-		swap(first.m_length, second.m_length);
-		swap(first.m_array, second.m_array);
-	}
-
 };
 
-IntArray fillArray()
+std::ostream& operator<<(std::ostream& out, const FixedPoint2& fp)
 {
-	IntArray a(5);
-	a[0] = 5;
-	a[1] = 8;
-	a[2] = 2;
-	a[3] = 3;
-	a[4] = 6;
-
-	return a;
+	out << static_cast<double>(fp);
+		return out;
 }
-
 
 int main()
 {
-	IntArray a{ fillArray() };
-
+	FixedPoint2 a{ 34, 56 };
 	std::cout << a << '\n';
+	std::cout << static_cast<double>(a) << '\n';
+	assert(static_cast<double>(a) == 34.56);
 
-	auto& ref{ a };
-	a = ref;
+	FixedPoint2 b{ -2, 8 };
+	assert(static_cast<double>(b) == -2.08);
 
-	IntArray b(1);
-	b = a;
+	FixedPoint2 c{ 2, -8 };
+	assert(static_cast<double>(c) == -2.08);
 
-	a[4] = 7;
+	FixedPoint2 d{ -2, -8 };
+	assert(static_cast<double>(d) == -2.08);
 
-	std::cout << b << '\n';
+	FixedPoint2 e{ 0, -5 };
+	assert(static_cast<double>(e) == -0.05);
 
-	return 0;
+	FixedPoint2 f{ 0, 10 };
+	assert(static_cast<double>(f) == 0.1);
+
 }
-
 
 /*
 
