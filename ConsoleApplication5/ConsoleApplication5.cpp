@@ -248,7 +248,7 @@ int main()
 #endif
 
 
-#ifndef a0doIntDivision
+#ifdef a0doIntDivision
 
 #include <iostream>
 #include <optional> // for std::optional (C++17)
@@ -304,6 +304,41 @@ int main()
 	std::cout << "enter number->" << std::endl;
 	std::cin >> mynum;
 	printValue(mynum);
+}
+
+#endif
+
+#ifndef function-overloading-super
+
+#include <iostream>
+#include <string>
+
+struct Employee
+{
+	std::string name{}; // expensive to copy
+	int id;
+};
+
+void printEmployeeID()
+{
+	std::cout << "Your ID number is not known.\n";
+}
+
+void printEmployeeID(const Employee& e)
+{
+	std::cout << "Your ID number is " << e.id << ".\n";
+}
+
+int main()
+{
+	printEmployeeID();
+
+	Employee e{ "James", 34 };
+	printEmployeeID(e); // we know the Employee's ID now
+
+	printEmployeeID({ "Dave", 62 });
+
+	return 0;
 }
 
 #endif
