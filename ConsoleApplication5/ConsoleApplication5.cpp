@@ -114,7 +114,11 @@ int main()
 
 
 #ifdef met1
-// https://metanit.com/cpp/tutorial/10.3.php
+/*
+ https://metanit.com/cpp/tutorial/10.3.php
+ std::optional<T>
+ Последнее обновление : 07.03.2023
+*/
 #include <string>
 #include <optional>
 
@@ -164,6 +168,7 @@ std::optional<unsigned> find_index(const std::string& text, char c)
 
 
 #ifdef y1weekly
+//C++ Weekly - Ep 421 - You're Using optional, variant, pair, tuple, any, and expected Wrong!
 //https://www.youtube.com/watch?v=0yJk5yfdih0
 
 #include <cstdio>
@@ -232,22 +237,6 @@ int main()
 
 
 
-#ifdef a0limits
-
-#include <limits>
-
-int main()
-{
-	using std::cout, std::endl;
-	cout << "std::numeric_limits<double>::lowest() = "
-		<< std::numeric_limits<double>::lowest() << endl;
-	cout << "std::numeric_limits<int>::max() = "
-		<< std::numeric_limits<int>::max() << endl;
-}
-
-#endif
-
-
 #ifdef a0doIntDivision
 
 #include <iostream>
@@ -308,7 +297,9 @@ int main()
 
 #endif
 
-#ifndef function-overloading-super
+
+
+#ifdef function-overloading-super
 
 #include <iostream>
 #include <string>
@@ -341,4 +332,41 @@ int main()
 	return 0;
 }
 
+#endif
+
+
+
+#ifndef itself
+#include <limits>
+
+std::optional<double> func(int a, int b)
+{
+	if (b)
+	{
+		double result{ 1.0 * a / b };
+		std::cout << " 1.0 * " << a << " / " << b  << " = " << result << '\n';
+		return result;
+	}
+
+	std::cout << "Division by zero don't know.\n";
+	return std::nullopt;
+}
+
+int main()
+{
+	func(5, 0);
+	func(5, 2);
+
+	std::cout << "std::numeric_limits<int>::lowest() = " << std::numeric_limits<int>::lowest() << '\n';
+	std::cout << "std::numeric_limits<int>::max() = " << std::numeric_limits<int>::max() << '\n';
+	std::cout << "sizeof(int) = " << sizeof(int) << '\n';
+	std::cout << "sizeof(bool) = " << sizeof(bool) << '\n';
+	std::cout << "sizeof(char) = " << sizeof(char) << '\n';
+	std::cout << "sizeof(double) = " << sizeof(double) << '\n';
+	std::cout << "sizeof(float) = " << sizeof(float) << '\n';
+	std::cout << "sizeof(unsigned long) = " << sizeof(unsigned long) << '\n';
+	std::cout << "sizeof(long long) = " << sizeof(long long) << '\n';
+
+
+}
 #endif
