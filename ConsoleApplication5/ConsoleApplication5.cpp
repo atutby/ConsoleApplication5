@@ -10,10 +10,11 @@ https://www.youtube.com/watch?v=0yJk5yfdih0
 https://compiler-explorer.com/z/h1joah85P
 */
 
-#include <iostream>
-#include <optional>
 
 #ifdef a1
+
+#include <iostream>
+#include <optional>
 // Our function now optionally returns an int value
 std::optional<int> doIntDivision(int x, int y)
 {
@@ -336,7 +337,7 @@ int main()
 
 
 
-#ifndef itself
+#ifdef itself
 #include <limits>
 
 std::optional<double> func(int a, int b)
@@ -370,3 +371,47 @@ int main()
 
 }
 #endif
+
+
+
+//#include <cstdio>
+#include <optional>
+#include <iostream>
+#include <source_location>
+
+
+void print(const std::source_location& location = std::source_location::current()) noexcept
+{
+	std::puts(location.function_name());
+}
+
+
+
+struct Lifetime {
+	Lifetime(int) noexcept { print(); }
+	Lifetime() noexcept { print(); }
+	Lifetime(Lifetime&&) noexcept { print(); }
+	Lifetime(const Lifetime&) noexcept { print(); }
+	~Lifetime() noexcept { print(); }
+	Lifetime& operator=(const Lifetime&) noexcept {
+		print();
+		return *this;
+	}
+	Lifetime& operator=(Lifetime&&) noexcept {
+		print();
+		return *this;
+	}
+};
+
+std::optional<Lifetime> get_value()
+{
+	Lifetime ll{ };
+	std::optional<Lifetime> l {ll};
+	return ll;
+}
+
+
+int main()
+{
+	get_value();
+}
