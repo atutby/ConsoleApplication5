@@ -374,44 +374,63 @@ int main()
 
 
 
-//#include <cstdio>
-#include <optional>
+#ifdef reciprocal
 #include <iostream>
-#include <source_location>
 
-
-void print(const std::source_location& location = std::source_location::current()) noexcept
+// The reciprocal of x is 1/x, returns 0.0 if x=0
+double reciprocal(double x)
 {
-	std::puts(location.function_name());
+	if (x == 0.0) // if x is semantically invalid
+		return 0.0;
+
+	return 1.0 / x;
 }
 
-
-
-struct Lifetime {
-	Lifetime(int) noexcept { print(); }
-	Lifetime() noexcept { print(); }
-	Lifetime(Lifetime&&) noexcept { print(); }
-	Lifetime(const Lifetime&) noexcept { print(); }
-	~Lifetime() noexcept { print(); }
-	Lifetime& operator=(const Lifetime&) noexcept {
-		print();
-		return *this;
-	}
-	Lifetime& operator=(Lifetime&&) noexcept {
-		print();
-		return *this;
-	}
-};
-
-std::optional<Lifetime> get_value()
+void testReciprocal(double d)
 {
-	Lifetime ll{ };
-	std::optional<Lifetime> l {ll};
-	return ll;
+	double result{ reciprocal(d) };
+	std::cout << "The reciprocal of " << d << " is ";
+	if (result != 0.0)
+		std::cout << result << '\n';
+	else
+		std::cout << "undefined\n";
 }
-
 
 int main()
 {
-	get_value();
+	double arr[]{ 5.0, -4.0, 0.0 };
+	for (auto elem : arr)
+	{
+		testReciprocal(elem);
+	}
+
+}
+#endif
+
+
+
+#include <iostream>
+#include <optional>
+
+std::optional<double> reciprocal(double x)
+{
+	if (x == 0.0)
+		return {};
+
+	return 1.0 / x;
+}
+
+int main()
+{
+	double arr[]{ 5.5, -4.0, 0.0, 0.2, 0.25 };
+	std::optional<double> result{};
+	for (auto elem : arr)
+	{
+		result = reciprocal(elem);
+	if (result)
+		std::cout << "Reciprocal of " << elem << ": " << *result << '\n';
+	else
+		std::cout << "Reciprocal of " << elem << ": " << "failed\n";
+	}
+
 }
