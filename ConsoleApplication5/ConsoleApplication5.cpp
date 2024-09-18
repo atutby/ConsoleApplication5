@@ -409,6 +409,7 @@ int main()
 
 
 
+#ifdef reciprocal_my
 #include <iostream>
 #include <optional>
 
@@ -434,3 +435,78 @@ int main()
 	}
 
 }
+
+#endif
+
+
+#ifdef find_index
+#include <iostream>
+#include <string>
+#include <optional>
+
+std::optional<unsigned> find_index(const std::string&, char);
+void print_index(std::optional<unsigned>, char);
+
+int main()
+{
+	const std::string text = "An apple a day keep the doctor away.";
+	char p_char{ 'p' };
+	const std::optional<unsigned> p_index{ find_index(text, p_char) };
+	print_index(p_index, p_char);
+
+	char b_char{ 'b' };
+	const std::optional<unsigned> b_index{ find_index(text, b_char) };
+	print_index(b_index, b_char);
+}
+
+
+void print_index(std::optional<unsigned> index, char c)
+{
+	if (index)
+		std::cout << "Index of " << c << ": " << *index << std::endl;
+	else
+		std::cout << "Index of " << c << " not found" << std::endl;
+}
+
+std::optional<unsigned> find_index(const std::string& text, char c)
+{
+	if (text.empty())
+		return std::nullopt;
+	for (unsigned i{}; i < text.size(); i++)
+	{
+		if (text[i] == c)
+			return i;
+	}
+	return std::nullopt;
+}
+#endif
+
+
+
+#ifndef pow
+//https://metanit.com/cpp/tutorial/10.3.php
+#include <iostream>
+#include <optional>
+
+double pow(double, std::optional<unsigned> = std::nullopt);
+int main()
+{
+	double n1 = pow(4, 3);
+	std::cout << n1 << std::endl;
+	double n2 = pow(4);
+	std::cout << n2 << std::endl;
+}
+
+
+double pow(double number, std::optional<unsigned> exp)
+{
+	unsigned a = exp.value_or(2);
+	double result{ 1.0 };
+	for (unsigned i{}; i < a; i++)
+	{
+		result *= number;
+	}
+	return result;
+}
+#endif
+
