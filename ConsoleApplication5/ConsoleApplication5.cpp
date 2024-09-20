@@ -512,7 +512,7 @@ double pow(double number, std::optional<unsigned> exp)
 
 
 
-#ifndef chapter-12-summary-and-quiz_Questaion#5
+#ifdef chapter-12-summary-and-quiz_Questaion#5
 //https://www.learncpp.com/cpp-tutorial/chapter-12-summary-and-quiz/
 #include <algorithm> // for std::swap
 #include <iostream>
@@ -543,3 +543,83 @@ int main()
 	return 0;
 }
 #endif // !chapter-12-summary-and-quiz_Questaion#5
+
+
+
+#ifdef returning__std::optional
+#include <iostream>
+#include <optional>
+
+// Our function now optionally returns an int value
+std::optional<int> doIntDivision(int x, int y)
+{
+	if (y == 0)
+		return {};
+	return x / y;
+}
+
+int main()
+{
+	std::optional<int> result1{ doIntDivision(20, 5) };
+	if (result1)
+		std::cout << "Result 1: " << *result1 << '\n'; // get the value
+	else
+		std::cout << "Result 1: failed\n";
+
+	std::optional<int> result2{ doIntDivision(5, 0) };
+
+	if (result2)
+		std::cout << "Result 2: " << *result2 << '\n';
+	else
+		std::cout << "Result 2: failed\n";
+
+	return 0;
+}
+
+#endif
+
+
+
+#ifndef returning__std::optional__metanit
+//https://metanit.com/cpp/tutorial/10.3.php
+#include <iostream>
+#include <string>
+#include <optional>
+
+std::optional<unsigned> find_index(const std::string&, char);
+void print_index(std::optional<unsigned>, char);
+
+int main()
+{
+	const std::string text = "An apple a day keep the doctor away.";
+	char p_char{ 'p' };
+	const std::optional<unsigned> p_index{ find_index(text, p_char) };
+	print_index(p_index, p_char);
+
+	char b_char{ 'b' };
+	const std::optional<unsigned> b_index{ find_index(text, b_char) };
+	print_index(b_index, b_char);
+}
+
+//
+void print_index(std::optional<unsigned> index, char c)
+{
+	if (index)
+		std::cout << "Index of " << c << ": " << *index << std::endl;
+	else
+		std::cout << "Index of " << c << " not found" << std::endl;
+}
+std::optional<unsigned> find_index(const std::string& text, char c)
+{
+	if (text.empty())
+		return std::nullopt;
+	for (unsigned i{}; i < text.size(); i++)
+	{
+		if (text[i] == c)
+		{
+			return i;
+		}
+	}
+	return std::nullopt;
+}
+#endif
