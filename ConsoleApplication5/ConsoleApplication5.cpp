@@ -483,7 +483,7 @@ std::optional<unsigned> find_index(const std::string& text, char c)
 
 
 
-#ifndef pow
+#ifdef pow
 //https://metanit.com/cpp/tutorial/10.3.php
 #include <iostream>
 #include <optional>
@@ -510,3 +510,36 @@ double pow(double number, std::optional<unsigned> exp)
 }
 #endif
 
+
+
+#ifndef chapter-12-summary-and-quiz_Questaion#5
+//https://www.learncpp.com/cpp-tutorial/chapter-12-summary-and-quiz/
+#include <algorithm> // for std::swap
+#include <iostream>
+
+void sort2(int& lesser, int& greater)
+{
+	// If the values are already sorted, we have nothing to do
+	if (lesser <= greater)
+		return;
+
+	std::swap(lesser, greater);
+}
+
+
+int main()
+{
+	int x{7};
+	int y{ 5 };
+
+	std::cout << x << ' ' << y << '\n';
+
+	sort2(x, y);
+	std::cout << x << ' ' << y << '\n';
+
+	sort2(x, y);
+	std::cout << x << ' ' << y << '\n';
+
+	return 0;
+}
+#endif // !chapter-12-summary-and-quiz_Questaion#5
