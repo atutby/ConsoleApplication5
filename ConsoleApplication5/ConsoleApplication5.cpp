@@ -580,7 +580,7 @@ int main()
 
 
 
-#ifndef returning__std::optional__metanit
+#ifdef returning__std::optional__metanit
 //https://metanit.com/cpp/tutorial/10.3.php
 #include <iostream>
 #include <string>
@@ -622,4 +622,245 @@ std::optional<unsigned> find_index(const std::string& text, char c)
 	}
 	return std::nullopt;
 }
+#endif
+
+
+
+#ifdef introduction-to-c-style-arrays
+//https://www.learncpp.com/cpp-tutorial/introduction-to-c-style-arrays/
+#include <iostream>
+#include <array>
+
+int main()
+{
+	const int arr[]{ 9, 8, 7, 6, 5 };
+
+	int s{ 2 };
+	std::cout << arr[s] << '\n';
+
+	unsigned int u{ 3 };
+	std::cout << arr[u] << '\n';
+
+	int fibonaci[6] = { 0, 1, 1, 2, 3, 5};
+	const int prime[]{ 2, 3, 5, 7, 11};
+	std::cout << std::size(prime) << '\n';
+	std::cout << std::ssize(prime) << '\n';
+
+
+
+	return 0;
+
+}
+#endif
+
+
+
+#ifdef introduction-to-c-style-arrays
+//https://www.learncpp.com/cpp-tutorial/introduction-to-c-style-arrays/
+#include <iostream>
+
+namespace ProgramData
+{
+	constexpr int squares[]{ 0, 1, 4, 9 };
+}
+
+bool matchSquare(int input)
+{
+	for (const auto& e : ProgramData::squares)
+	{
+		if (input == e)
+			return true;
+	}
+
+	return false;
+}
+
+int main()
+{
+	while (true)
+	{
+		std::cout << "Enter a single digit integer, or -1 to quiet: ";
+		int input{};
+		std::cin >> input;
+
+		if (input == -1)
+			break;
+
+		if (matchSquare(input))
+			std::cout << input << " is a perfect square\n";
+		else
+			std::cout << input << " is not a perfect square\n";
+	}
+
+	std::cout << "Bye\n";
+
+	return 0;
+}
+#endif
+
+//17.8 -- C-style array decay
+#ifdef _1_cpp-tutorial/c-style-array-decay
+//https://www.learncpp.com/cpp-tutorial/c-style-array-decay/
+#include <iostream>
+
+void printElementZero(int arr[1000])
+{
+	std::cout << arr[0];
+}
+
+int main()
+{
+	int x[7]{ 5 };
+	printElementZero(x);
+
+	return 0;
+}
+#endif
+
+
+
+#ifdef _2_cpp-tutorial/c-style-array-decay
+#include <iomanip> // for std::boolalpha
+#include <iostream>
+
+int main()
+{
+	int arr[5]{ 9, 7, 5, 3, 1 };
+
+	auto ptr{ arr };
+	std::cout << std::boolalpha << (typeid(ptr) == typeid(int*)) << '\n';
+
+	std::cout << std::boolalpha << (&arr[0] == ptr) << '\n';
+
+	return 0;
+}
+#endif
+
+
+
+#ifdef _3_cpp-tutorial/c-style-array-decay
+#include <iostream>
+int main()
+{
+	const int arr[]{ 9, 7, 5, 3, 1 };
+
+	const int* ptr{ arr };
+	std::cout << ptr[2];
+
+	return 0;
+}
+#endif
+
+
+
+#ifdef _4_cpp-tutorial/c-style-array-decay
+#include <iostream>
+void printElementZero(const int* arr) //
+{
+	std::cout << arr[0] << '\n';
+}
+
+int main()
+{
+	const int prime[]{ 2, 3, 5, 7, 11 };
+	const int squares[]{ 1, 4, 9, 25, 36, 49, 64, 81 };
+
+	printElementZero(prime);
+	printElementZero(squares);
+
+	return 0;
+}
+#endif
+
+
+
+#ifdef _5_cpp-tutorial/c-style-array-decay
+#include <iostream>
+void printArraySize(int arr[])
+{
+	std::cout << sizeof(arr) << '\n';
+}
+
+int main()
+{
+	int arr[]{ 3, 2, 1 };
+
+	std::cout << sizeof(arr) << '\n'; // prints 12 (assuming 4 byte ints)
+
+	printArraySize(arr);
+}
+#endif
+
+
+
+#ifdef _6_cpp-tutorial/c-style-array-decay
+#include <iostream>
+int printArrayLength(int arr[])
+{
+	std::cout << std::size(arr) << '\n';
+}
+
+int main()
+{
+	int arr[]{ 2, 2, 1 };
+
+	std::cout << std::size(arr) << '\n'; //prints 3
+
+	printArrayLength(arr);
+}
+#endif
+
+
+
+#ifdef _7_Third_not_having_length_information
+#include <iostream>
+void printElement2(int arr[])
+{
+	std::cout << arr[2] << '\n';
+}
+
+int main()
+{
+	int a[]{ 3, 2, 1 };
+	printElement2(a); 
+
+	int b[]{ 7, 6 };
+	printElement2(b); // -858993460
+
+	int c{ 9 };
+	printElement2(&c); // -858993460
+
+	return 0;
+}
+#endif
+
+
+
+#ifdef _8_working_around_array_length_issues
+#include <cassert>
+#include <iostream>
+
+void printElement2(const int arr[], int length)
+{
+	assert(length > 2 && "printElement2: Array too short"); // can't static_assert on length
+
+	std::cout << arr[2] << '\n';
+}
+
+int main()
+{
+	constexpr int a[]{ 3, 2, 1 };
+	printElement2(a, static_cast<int>(std::size(a))); // ok
+
+	constexpr int b[]{ 7, 6 };
+	printElement2(b, static_cast<int>(std::size(b))); // will trigger assert
+
+	return 0;
+}
+//potential sign conversion
+#endif
+
+
+
+#ifdef _9__C-style_arrays_should_be_avoided
 #endif
