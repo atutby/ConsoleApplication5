@@ -864,3 +864,196 @@ int main()
 
 #ifdef _9__C-style_arrays_should_be_avoided
 #endif
+
+
+
+//17.9 — Pointer arithmetic and subscripting
+//https://www.learncpp.com/cpp-tutorial/pointer-arithmetic-and-subscripting/
+#ifdef _17.9__What_is_pointer_arithmetic
+#include <iostream>
+int main()
+{
+	int x{};
+	const int* ptr{ &x }; // assume 4 byte ints
+
+	std::cout << ptr << ' ' << (ptr + 1) << ' ' << (ptr + 2) << '\n';
+
+	return 0;
+}
+#endif
+
+
+
+
+#ifdef _17.9__Pointer_arithmetic_and_subscripting_are_relative_addresses
+#include <array>
+#include <iostream>
+int main()
+{
+	const int arr[]{ 9, 8, 7, 6, 5 };
+	const int* ptr{ arr };
+
+	// Prove that we're pointing at element 0
+	std::cout << *ptr << ptr[0] << '\n';
+	std::cout << *(ptr + 1) << ptr[1] << '\n';
+
+	ptr = &arr[3];
+
+	std::cout << *ptr << ptr[0] << '\n';
+	std::cout << *(ptr + 1) << ptr[1] << '\n';
+}
+#endif
+
+
+#ifdef _17.9__Negative_indices
+#include <array>
+#include <iostream>
+
+int main()
+{
+	const int arr[]{ 9, 8, 7, 6, 5 };
+
+	// Set ptr to point at element 3
+	const int* ptr{ &arr[3] };
+
+	std::cout << *ptr << ptr[0] << '\n'; // prints 66
+	std::cout << *(ptr - 1) << ptr[-1] << '\n'; // prints 77
+
+	return 0;
+}
+#endif
+
+
+
+#ifdef _17.9__Pointer_arithmetic_can_be_used_to_traverse_an_array
+#include <iostream>
+
+void printArray(const int* begin, const int* end)
+{
+	for (; begin != end; ++begin)
+	{
+		std::cout << *begin << ' ';
+	}
+
+	std::cout << '\n';
+}
+
+int main()
+{
+	constexpr int arr[]{ 9, 7, 5, 3, 1 };
+
+	const int* begin{ arr };
+	const int* end{ arr + std::size(arr) };
+
+	printArray(begin, end);
+
+	return 0;
+}
+#endif
+
+
+
+#ifdef _17.9__Range-based_for_loops_over_C-style_arrays_are_implemented_using_pointer_arithmetic
+#include <iostream>
+int main()
+{
+	constexpr int arr[]{ 9, 7, 5, 3, 1 };
+
+	auto __begin = arr;
+	auto __end = arr + std::size(arr); // arr + std::size(arr) is our end-expr
+
+	for (; __begin != __end; ++__begin)
+	{
+		auto e = *__begin;
+		std::cout << e << ' ';
+	}
+
+	return 0;
+}
+#endif
+
+
+//https://www.learncpp.com/cpp-tutorial/c-style-array-decay/
+#ifdef _17.8_00__C-style_array_decay
+#include <iostream>
+
+void printElementZero(int arr[1000]) // doesn't make a copy
+{
+	std::cout << arr[0]; // print the value of the first element
+}
+
+int main()
+{
+	int array[]{ 43, 7, 8, 9, 15, 2, 1 };
+	int x[7]{ 5 };
+	printElementZero(array);
+}
+#endif
+
+
+
+//https://www.youtube.com/watch?v=3K5Qo4ILztk
+//g++ -std=c++17 .\ConsoleApplication5.cpp -o prog
+#ifdef _Passing_arrays_into_functions
+#include <iostream>
+#include <vector>
+#include <array>
+void PrintArray(int* arr) {
+	std::cout << "sizeof(arr): " << sizeof(arr) << std::endl;
+}
+
+int main()
+{
+	int array[]{ 1, 3, 5, 7 };
+
+	PrintArray(array);
+
+	return 0;
+}
+#endif
+
+
+
+//https://www.youtube.com/watch?v=2ybLD6_2gKM
+#ifdef _01_you_will_never_ask_aboud_pointers_again__Low_Level
+#include <stdio.h>
+struct Person {
+	char name[64];
+	int age;
+};
+
+void updateStruct(struct Person* p, int age)
+{
+	p->age = age;
+}
+
+int main(int argc, char** argv)
+{
+	struct Person lowlevellearning;
+	updateStruct(&lowlevellearning, 100);
+
+	return 0;
+}
+#endif 
+
+
+
+#ifdef _02_you_will
+#endif
+#include <stdio.h>
+#include <stdlib.h>
+int main(int argc, char** argv)
+{
+	void* heapMemory = malloc(100);
+	if (NULL == heapMemory)
+	{
+		perror("malloc failed bruh");
+	}
+
+	return 0;
+}
+
+
+
+
+
